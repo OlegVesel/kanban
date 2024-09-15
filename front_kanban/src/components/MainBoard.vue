@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <div class="mx-5">
         <v-row class="text-center">
             <v-col>
                 <TasksList></TasksList>
@@ -13,7 +13,7 @@
                 <TaskListComplete></TaskListComplete>
             </v-col>
         </v-row>
-    </v-container>
+    </div>
 </template>
 
 <script>

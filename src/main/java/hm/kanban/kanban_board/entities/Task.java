@@ -16,15 +16,18 @@ public class Task {
     private Short status;
     private UUID idUser;
     private Boolean deleted;
+    private String color;
+
     private LocalDate createDate;
 
-    public Task(UUID id, String title, String description, Short status, UUID idUser, Boolean deleted, LocalDate createDate) {
+    public Task(UUID id, String title, String description, Short status, UUID idUser, Boolean deleted, String color, LocalDate createDate) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.idUser = idUser;
         this.deleted = deleted;
+        this.color = color;
         this.createDate = createDate;
     }
 
@@ -45,6 +48,14 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getDescription() {

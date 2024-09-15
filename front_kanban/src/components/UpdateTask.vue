@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-title>
+        <v-card-title :style="`background: ${item.color}`">
             Обновить задачу
         </v-card-title>
         <v-card-text>
@@ -8,10 +8,11 @@
                     label="Название задачи"
                     v-model="item.title"
             ></v-text-field>
-            <v-text-field
+            <v-textarea
+                    rows="2"
                     label="Описание задачи"
                     v-model="item.description"
-            ></v-text-field>
+            ></v-textarea>
             <v-select
                     :items="variants"
                     item-text="text"
@@ -19,17 +20,46 @@
                     label="Статус"
                     v-model="item.status"
             ></v-select>
+
+            <v-row>
+                <v-col>
+                    <v-menu
+                            v-model="showColorPicker"
+                            :close-on-content-click="false"
+                            offset-x
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                    color="primary"
+                                    dark
+                                    small
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="showColorPicker = true"
+                            >
+                                Назначить цвет
+                            </v-btn>
+                        </template>
+                        <ColorPicker
+                                :color="item.color"
+                                @color="setColor"
+                                @close="showColorPicker = false"
+                        />
+                    </v-menu>
+                </v-col>
+                <v-col align="end">
+                    <v-chip
+                            ref="some"
+                            label
+                    >
+                        Создана: {{item.createDate}}
+                    </v-chip>
+                </v-col>
+            </v-row>
             <v-switch
                     v-model="item.deleted"
                     label="Помечена на удаление"
             ></v-switch>
-
-            <v-text-field ref="some"
-                          readonly
-                          label="дата создания задачи"
-                          v-model="item.createDate"
-            >
-            </v-text-field>
         </v-card-text>
         <v-card-actions>
             <v-btn
@@ -50,11 +80,13 @@
 
 <script>
 import {mapActions} from "vuex";
+import ColorPicker from "@/tools/ColorPicker";
 
 export default {
     name: 'UpdateTask',
     props: ['task'],
     data: () => ({
+        showColorPicker: false,
         item: {
             id: null,
             title: null,
@@ -62,8 +94,9 @@ export default {
             createDate: null,
             deleted: null,
             status: null,
+            color: null,
         },
-        oldStatus : null,
+        oldStatus: null,
         variants: [
             {
                 text: 'Запланированная',
@@ -79,6 +112,9 @@ export default {
             },
         ]
     }),
+    components: {
+        ColorPicker
+    },
     watch: {
         task() {
             this.prepare()
@@ -96,6 +132,12 @@ export default {
             for (let key in this.item) {
                 this.item[key] = null
             }
+        },
+        setColor(color) {
+            if (color != null && color.length > 0) {
+                this.item.color = color
+            }
+            this.showColorPicker = false
         }
     },
     beforeMount() {

@@ -12,6 +12,7 @@
                           v-model="userName"
             ></v-text-field>
             <v-text-field label="Пароль"
+                          type="password"
                           v-model="password"
             ></v-text-field>
         </v-card-text>
