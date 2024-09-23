@@ -1,49 +1,52 @@
 <template>
-        <v-card class="ma-2 simpleCard"
-                @dragstart="startDrag($event, task)"
-                draggable="true"
-                :style="`border-left: 5px ${task.color} solid`"
-        >
-            <v-card-title class="py-1 px-2">
-                <v-spacer></v-spacer>
-                <h4 :class="{softDeleted : task.deleted}">{{ task.title }}</h4>
-                <v-spacer></v-spacer>
-            </v-card-title>
-            <v-card-text class="pa-0">
-                {{ task.description }}
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
+    <v-card class="ma-2 simpleCard"
+            @dragstart="startDrag($event, task)"
+            draggable="true"
+            elevation="3"
+            :style="`border-left: 5px ${task.color} solid`"
+    >
+        <v-card-title class="py-1 px-2">
+            <v-spacer></v-spacer>
+            <h4 :class="{softDeleted : task.deleted}">{{ task.title }}</h4>
+            <v-spacer></v-spacer>
+        </v-card-title>
+        <v-card-text class="pa-0">
+            {{ task.description }}
+        </v-card-text>
+        <v-card-actions>
+            <v-row class="ma-0" justify="center">
                 <v-btn
                         icon
-                        color="red"
+                        color="error"
                         x-small
                         outlined
                         @click="deleteTask(task)"
+                        class="mx-1"
                 >
                     <v-icon>{{ icons.mdiDeleteOutline }}</v-icon>
                 </v-btn>
                 <v-btn
                         icon
-                        color="blue"
+                        color="primary"
                         x-small
                         outlined
                         @click="showUpdateTask = true"
+                        class="mx-1"
                 >
                     <v-icon>{{ icons.mdiPencilOutline }}</v-icon>
                 </v-btn>
-                <v-spacer></v-spacer>
-            </v-card-actions>
-            <v-dialog
-                    v-model="showUpdateTask"
-                    max-width="500"
-            >
-                <UpdateTask
-                        :task="JSON.stringify(task)"
-                        @close="showUpdateTask = false"
-                ></UpdateTask>
-            </v-dialog>
-        </v-card>
+            </v-row>
+        </v-card-actions>
+        <v-dialog
+                v-model="showUpdateTask"
+                max-width="500"
+        >
+            <UpdateTask
+                    :task="JSON.stringify(task)"
+                    @close="showUpdateTask = false"
+            ></UpdateTask>
+        </v-dialog>
+    </v-card>
 </template>
 
 <script>
@@ -83,7 +86,15 @@ export default {
 
 <style scoped>
 .simpleCard:hover {
-    background: #eaeaea;
+    background: #d9d9d9;
+    border: #033047 solid 1px;
+    transition: all .5s ease;
+    cursor: pointer;
+}
+
+.simpleCard {
+    border: #f0efeb solid 1px;
+    background: #f0efeb;
 }
 
 .softDeleted {

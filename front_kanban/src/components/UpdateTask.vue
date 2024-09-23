@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card style="background: #f0efeb">
         <v-card-title :style="`background: ${item.color}`">
             Обновить задачу
         </v-card-title>
@@ -52,7 +52,7 @@
                             ref="some"
                             label
                     >
-                        Создана: {{item.createDate}}
+                        Создана: {{ item.createDate }}
                     </v-chip>
                 </v-col>
             </v-row>
@@ -62,18 +62,24 @@
             ></v-switch>
         </v-card-text>
         <v-card-actions>
-            <v-btn
-                    color="green"
-                    @click="updateTask"
-            >
-                Обновить
-            </v-btn>
-            <v-btn
-                    color="red"
-                    @click="$emit('close')"
-            >
-                Отмена
-            </v-btn>
+            <v-row justify="center" class="ma-0 pb-1">
+                <v-btn
+                        small
+                        color="success"
+                        @click="updateTask"
+                        class="mx-2"
+                >
+                    Обновить
+                </v-btn>
+                <v-btn
+                        small
+                        color="error"
+                        @click="$emit('close')"
+                        class="mx-2"
+                >
+                    Отмена
+                </v-btn>
+            </v-row>
         </v-card-actions>
     </v-card>
 </template>

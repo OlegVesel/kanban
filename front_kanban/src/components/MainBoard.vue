@@ -36,7 +36,6 @@ export default {
     beforeMount() {
         this.uploadProjectTasks(this.getAccount.id)
         this.uploadWorkingTasks(this.getAccount.id)
-
     }
 }
 </script>

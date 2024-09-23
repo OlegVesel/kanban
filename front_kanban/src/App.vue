@@ -10,13 +10,14 @@
                 {{this.$store.state.account.userName}}
             </span>
             <v-btn
+                    small
                     color="error"
                     v-if="isAuth"
                     @click="logout"
             >Выйти
             </v-btn>
         </v-app-bar>
-        <v-main>
+        <v-main id="v_main">
             <template v-if="isAuth">
                 <MainBoard/>
             </template>
@@ -52,3 +53,9 @@ export default {
     }
 };
 </script>
+
+<style>
+#v_main{
+   background: #f4f3ee;
+}
+</style>

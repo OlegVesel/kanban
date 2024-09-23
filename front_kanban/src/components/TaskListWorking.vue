@@ -16,6 +16,7 @@
                 @drop="onDropInWorking($event)"
                 @dragenter.prevent
                 @dragover.prevent
+                style="background: #f4f3ee"
 
         >
             <TaskItem

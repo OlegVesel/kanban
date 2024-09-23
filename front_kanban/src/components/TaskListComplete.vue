@@ -17,6 +17,7 @@
                 @drop="onDropInComplete($event)"
                 @dragenter.prevent
                 @dragover.prevent
+                style="background: #f4f3ee"
         >
             <v-btn
                     icon

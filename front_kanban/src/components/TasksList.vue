@@ -17,6 +17,7 @@
                 @dragenter.prevent
                 @dragover.prevent
                 id="taskList"
+                style="background: #f4f3ee"
         >
             <TaskItem
                     v-for="item in getProjectTasks"
@@ -29,7 +30,7 @@
         <v-row justify="center" class="my-3">
             <v-btn
                     icon
-                    color="green"
+                    color="success"
                     small
                     outlined
                     @click="showAddTask = true"

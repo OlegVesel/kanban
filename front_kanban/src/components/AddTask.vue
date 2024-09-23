@@ -1,31 +1,37 @@
 <template>
-    <v-card>
+    <v-card style="background: #f0efeb">
         <v-card-title>
             Добавить задачу
         </v-card-title>
         <v-card-text>
             <v-text-field
-                label="Название задачи"
-                v-model="item.title"
+                    label="Название задачи"
+                    v-model="item.title"
             ></v-text-field>
             <v-text-field
-                label="Описание задачи"
-                v-model="item.description"
+                    label="Описание задачи"
+                    v-model="item.description"
             ></v-text-field>
         </v-card-text>
         <v-card-actions>
-            <v-btn
-                color="green"
-                @click="saveTask"
-            >
-                Создать
-            </v-btn>
-            <v-btn
-                color="red"
-                @click="$emit('close')"
-            >
-                Отмена
-            </v-btn>
+            <v-row class="ma-0" justify="center">
+                <v-btn
+                        small
+                        color="success"
+                        @click="saveTask"
+                        class="mx-2"
+                >
+                    Создать
+                </v-btn>
+                <v-btn
+                        small
+                        color="error"
+                        @click="$emit('close')"
+                        class="mx-2"
+                >
+                    Отмена
+                </v-btn>
+            </v-row>
         </v-card-actions>
     </v-card>
 </template>
@@ -34,20 +40,20 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-    name:'AddTaskDialog',
-    data:() => ({
-        item : {
+    name: 'AddTaskDialog',
+    data: () => ({
+        item: {
             title: '',
             description: '',
-            idUser : ''
+            idUser: ''
         }
     }),
     computed: {
         ...mapGetters(['getAccount'])
     },
-    methods:{
+    methods: {
         ...mapActions(['addTask']),
-        saveTask(){
+        saveTask() {
             this.item.idUser = this.getAccount.id
             this.addTask(this.item)
             this.item.title = ''

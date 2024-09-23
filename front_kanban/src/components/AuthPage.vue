@@ -4,6 +4,7 @@
             class="mx-auto mt-5"
             max-width="400"
             @keyup.enter="login"
+            style="background: #f0efeb"
     >
 
         <v-card-title>Авторизация</v-card-title>
@@ -17,10 +18,14 @@
             ></v-text-field>
         </v-card-text>
         <v-card-actions>
-            <v-btn
-                    @click="login"
-            >Логин
-            </v-btn>
+            <v-row class="ma-0" justify="center">
+                <v-btn
+                        small
+                        @click="login"
+                        color="success"
+                >Логин
+                </v-btn>
+            </v-row>
         </v-card-actions>
     </v-card>
 </template>
