@@ -1,65 +1,76 @@
 <template>
-    <v-card style="background: #f0efeb">
+    <v-card
+            style="background: #f0efeb">
         <v-card-title :style="`background: ${item.color}`">
             Обновить задачу
         </v-card-title>
         <v-card-text>
-            <v-text-field
-                    label="Название задачи"
-                    v-model="item.title"
-            ></v-text-field>
-            <v-textarea
-                    rows="2"
-                    label="Описание задачи"
-                    v-model="item.description"
-            ></v-textarea>
-            <v-select
-                    :items="variants"
-                    item-text="text"
-                    item-value="status"
-                    label="Статус"
-                    v-model="item.status"
-            ></v-select>
+            <v-form ref="form_update_task">
+                <v-text-field
+                        label="Название задачи"
+                        v-model="item.title"
+                        :rules="rules"
+                ></v-text-field>
+                <v-textarea
+                        rows="2"
+                        label="Описание задачи"
+                        v-model="item.description"
+                ></v-textarea>
+                <v-row>
+                    <v-col class="pb-0  my-0">
+                        <v-select
+                                :items="variants"
+                                item-text="text"
+                                item-value="status"
+                                label="Статус"
+                                v-model="item.status"
+                        ></v-select>
+                    </v-col>
+                    <v-col align="end" align-self="center" cols="4" class="pb-0  my-0">
+                        <v-menu
+                                v-model="showColorPicker"
+                                :close-on-content-click="false"
+                                offset-x
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                        color="primary"
+                                        dark
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="showColorPicker = true"
+                                >
+                                    Выбрать цвет
+                                </v-btn>
+                            </template>
+                            <ColorPicker
+                                    :color="item.color"
+                                    @color="setColor"
+                                    @close="showColorPicker = false"
+                                    @clear="clearColor"
+                            />
+                        </v-menu>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col align-self="center" class="pt-0 my-0">
+                        <v-switch
+                                v-model="item.deleted"
+                                label="Помечена на удаление"
+                        ></v-switch>
+                    </v-col>
+                    <v-col align="end" align-self="center" cols="5" class="pt-0  my-0">
+                        <v-chip
+                                ref="some"
+                                label
+                        >
+                            Создана: {{ item.createDate }}
+                        </v-chip>
+                    </v-col>
+                </v-row>
 
-            <v-row>
-                <v-col>
-                    <v-menu
-                            v-model="showColorPicker"
-                            :close-on-content-click="false"
-                            offset-x
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                                    color="primary"
-                                    dark
-                                    small
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    @click="showColorPicker = true"
-                            >
-                                Назначить цвет
-                            </v-btn>
-                        </template>
-                        <ColorPicker
-                                :color="item.color"
-                                @color="setColor"
-                                @close="showColorPicker = false"
-                        />
-                    </v-menu>
-                </v-col>
-                <v-col align="end">
-                    <v-chip
-                            ref="some"
-                            label
-                    >
-                        Создана: {{ item.createDate }}
-                    </v-chip>
-                </v-col>
-            </v-row>
-            <v-switch
-                    v-model="item.deleted"
-                    label="Помечена на удаление"
-            ></v-switch>
+            </v-form>
         </v-card-text>
         <v-card-actions>
             <v-row justify="center" class="ma-0 pb-1">
@@ -116,7 +127,10 @@ export default {
                 text: 'Выполненная',
                 status: 2
             },
-        ]
+        ],
+        rules: [
+            value => !!value || 'Не должно быть пустым!',
+        ],
     }),
     components: {
         ColorPicker
@@ -133,6 +147,8 @@ export default {
             this.oldStatus = this.item.status
         },
         updateTask() {
+            if (!this.$refs.form_update_task.validate())
+                return
             this.updateTaskAction(this.item)
             this.$emit('close')
             for (let key in this.item) {
@@ -140,9 +156,13 @@ export default {
             }
         },
         setColor(color) {
-            if (color != null && color.length > 0) {
+            if (color !== null && color.length > 0) {
                 this.item.color = color
             }
+            this.showColorPicker = false
+        },
+        clearColor() {
+            this.item.color = '#f0efeb'
             this.showColorPicker = false
         }
     },

@@ -1,17 +1,20 @@
 <template>
-    <v-card style="background: #f0efeb">
+    <v-card style="background: #f0efeb" >
         <v-card-title>
             Добавить задачу
         </v-card-title>
         <v-card-text>
-            <v-text-field
-                    label="Название задачи"
-                    v-model="item.title"
-            ></v-text-field>
-            <v-text-field
-                    label="Описание задачи"
-                    v-model="item.description"
-            ></v-text-field>
+            <v-form ref="form_add_task">
+                <v-text-field
+                        label="Название задачи"
+                        v-model="item.title"
+                        :rules="rules"
+                ></v-text-field>
+                <v-text-field
+                        label="Описание задачи"
+                        v-model="item.description"
+                ></v-text-field>
+            </v-form>
         </v-card-text>
         <v-card-actions>
             <v-row class="ma-0" justify="center">
@@ -46,7 +49,10 @@ export default {
             title: '',
             description: '',
             idUser: ''
-        }
+        },
+        rules: [
+            value => !!value || 'Не должно быть пустым!',
+        ],
     }),
     computed: {
         ...mapGetters(['getAccount'])
@@ -54,6 +60,8 @@ export default {
     methods: {
         ...mapActions(['addTask']),
         saveTask() {
+            if (!this.$refs.form_add_task.validate())
+                return
             this.item.idUser = this.getAccount.id
             this.addTask(this.item)
             this.item.title = ''

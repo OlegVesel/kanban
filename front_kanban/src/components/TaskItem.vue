@@ -87,7 +87,7 @@ export default {
 <style scoped>
 .simpleCard:hover {
     background: #d9d9d9;
-    border: #033047 solid 1px;
+    border: #033047 solid 1px !important;
     transition: all .5s ease;
     cursor: pointer;
 }
