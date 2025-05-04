@@ -2,6 +2,7 @@ package hm.kanban.kanban_board.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +20,9 @@ public class Task {
     private String color;
 
     private LocalDate createDate;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", orphanRemoval = true)
+    private List<SubTask> subTasks;
 
     public Task(UUID id, String title, String description, Short status, UUID idUser, Boolean deleted, String color, LocalDate createDate) {
         this.id = id;
@@ -98,14 +102,24 @@ public class Task {
         this.createDate = createDate;
     }
 
+    public List<SubTask> getSubTasks() {
+        return subTasks;
+    }
+
+    public void setSubTasks(List<SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", idUser=" + idUser +
                 ", deleted=" + deleted +
+                ", color='" + color + '\'' +
                 ", createDate=" + createDate +
                 '}';
     }

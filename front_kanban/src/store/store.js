@@ -101,7 +101,6 @@ export default new Vuex.Store({
             }
         },
         deleteFromList(state, item) {
-            console.log('deleted')
             if (item.status === 0) {
                 let index = state.projectTasks.findIndex(i => i.id === item.id);
                 state.projectTasks = [

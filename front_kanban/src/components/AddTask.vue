@@ -17,7 +17,7 @@
             </v-form>
         </v-card-text>
         <v-card-actions>
-            <v-row class="ma-0" justify="center">
+            <v-row class="ma-0" justify="end">
                 <v-btn
                         small
                         color="success"
@@ -48,7 +48,8 @@ export default {
         item: {
             title: '',
             description: '',
-            idUser: ''
+            idUser: '',
+            color: '#f0efeb'
         },
         rules: [
             value => !!value || 'Не должно быть пустым!',

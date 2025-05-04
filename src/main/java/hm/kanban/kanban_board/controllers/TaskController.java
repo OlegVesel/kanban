@@ -1,5 +1,6 @@
 package hm.kanban.kanban_board.controllers;
 
+import hm.kanban.kanban_board.dto.response.TaskResponse;
 import hm.kanban.kanban_board.entities.Task;
 import hm.kanban.kanban_board.services.TaskService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAll(){
-        List<Task> response = taskService.getAllTask();
+    public ResponseEntity<List<TaskResponse>> getAll(){
+        List<TaskResponse> response = taskService.getAllTask();
         if (response == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         if (response.isEmpty())
@@ -29,8 +30,8 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
     @GetMapping("/status/{status}/{idUser}")
-    public ResponseEntity<List<Task>> getAllByStatus(@PathVariable Short status, @PathVariable UUID idUser){
-        List<Task> response = taskService.getAllTaskByStatus(status, idUser);
+    public ResponseEntity<List<TaskResponse>> getAllByStatus(@PathVariable Short status, @PathVariable UUID idUser){
+        List<TaskResponse> response = taskService.getAllParentTaskByStatus(status, idUser);
         if (response == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         if (response.isEmpty())
@@ -39,24 +40,24 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getById(@PathVariable("id") UUID id){
-        Task response = taskService.getById(id);
+    public ResponseEntity<TaskResponse> getById(@PathVariable("id") UUID id){
+        TaskResponse response = taskService.getById(id);
         if (response != null)
             return ResponseEntity.ok(response);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PostMapping
-    public ResponseEntity<Task> addTask(@RequestBody Task newTask){
-        Task response = taskService.createNewTask(newTask);
+    public ResponseEntity<TaskResponse> addTask(@RequestBody Task newTask){
+        TaskResponse response = taskService.createNewTask(newTask);
         if (response != null)
             return ResponseEntity.ok(response);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PutMapping
-    public ResponseEntity<Task> updateTask(@RequestBody Task task){
-        Task response = taskService.updateTask(task);
+    public ResponseEntity<TaskResponse> updateTask(@RequestBody Task task){
+        TaskResponse response = taskService.updateTask(task);
         if (response != null)
             return ResponseEntity.ok(response);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

@@ -88,6 +88,7 @@ export default {
 .simpleCard:hover {
     background: #d9d9d9;
     border: #033047 solid 1px !important;
+    border-left: #033047 solid 5px !important;
     transition: all .5s ease;
     cursor: pointer;
 }
